@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us — Bx Realty Bathurst</title>
+  <link rel="icon" type="image/png" href="assets/images/bxrealty-logo.png" />
+  <meta name="theme-color" content="#21211f" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Marcellus&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div id="site-nav"></div>
+
+<div class="page-band">
+  <div class="container">
+    <span class="label">We'd Love to Hear From You</span>
+    <h1>Contact Us</h1>
+    <span class="rule"></span>
+    <p>Reach out with any questions about buying, selling, or renting. We'll respond within one business day.</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="contact-layout">
+      <div>
+        <h2 style="font-size:1.6rem;">Get in Touch</h2>
+        <span class="rule"></span>
+        <p>Whether you have a quick question or want to discuss your property goals, we're here to help.</p>
+        <div class="contact-details">
+          <div class="contact-detail"><div class="contact-icon">&#x1F4DE;</div><div><span class="contact-icon-label">Phone</span><a href="tel:0498193223" style="color:var(--gold);font-weight:600;">0498 193 223</a></div></div>
+          <div class="contact-detail"><div class="contact-icon">&#x2709;</div><div><span class="contact-icon-label">Email</span><a href="mailto:ellie@bxrealty.com.au" style="color:var(--gold);">ellie@bxrealty.com.au</a></div></div>
+          <div class="contact-detail"><div class="contact-icon">&#x1F4CD;</div><div><span class="contact-icon-label">Office</span>Shop 1/82 George St<br>Bathurst NSW 2795<br><span style="font-size:.82rem;color:var(--text-muted);">PO Box 618, Bathurst NSW 2795</span></div></div>
+          <div class="contact-detail"><div class="contact-icon">&#x1F552;</div><div><span class="contact-icon-label">Hours</span>Open 7 days a week</div></div>
+        </div>
+        <h4 style="margin-bottom:12px;">Follow Us</h4>
+        <div class="social-links" style="--x:0;">
+          <a href="https://www.instagram.com/ellie_agentchapman_realtor/" class="social-link" target="_blank" rel="noopener" aria-label="Instagram" style="background:var(--white);border-color:var(--light-grey);color:var(--black);">IG</a>
+          <a href="https://www.facebook.com/profile.php?id=61573810007004" class="social-link" target="_blank" rel="noopener" aria-label="Facebook" style="background:var(--white);border-color:var(--light-grey);color:var(--black);">FB</a>
+          <a href="https://www.tiktok.com/@ellie.begg.realto" class="social-link" target="_blank" rel="noopener" aria-label="TikTok" style="background:var(--white);border-color:var(--light-grey);color:var(--black);">TT</a>
+        </div>
+      </div>
+
+      <div class="contact-form-card">
+        <h3 style="margin-bottom:6px;">Send Us a Message</h3>
+        <p class="text-muted" style="font-size:.875rem;margin-bottom:24px;">We'll get back to you within one business day.</p>
+        <form id="contact-form" novalidate>
+          <div class="form-row">
+            <div class="fg"><label for="ct-name">Full name *</label><input type="text" id="ct-name" class="fc" required /></div>
+            <div class="fg"><label for="ct-phone">Phone</label><input type="tel" id="ct-phone" class="fc" /></div>
+          </div>
+          <div class="fg"><label for="ct-email">Email address *</label><input type="email" id="ct-email" class="fc" required /></div>
+          <div class="fg"><label for="ct-subject">Subject</label><select id="ct-subject" class="fc"><option>General enquiry</option><option>Buying</option><option>Selling</option><option>Renting</option><option>Property management</option><option>Other</option></select></div>
+          <div class="fg"><label for="ct-msg">Message *</label><textarea id="ct-msg" class="fc" rows="5" required></textarea></div>
+          <button type="submit" class="btn btn-gold" style="width:100%;">Send Message &rarr;</button>
+        </form>
+        <div id="contact-success" style="display:none;text-align:center;padding:32px 0;">
+          <div style="font-size:2.5rem;margin-bottom:12px;color:var(--gold);">&#x2713;</div>
+          <h3 style="margin-bottom:8px;">Message sent!</h3>
+          <p>Thanks for reaching out. We'll be in touch within one business day.</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:56px;background:var(--light-grey);height:280px;display:flex;align-items:center;justify-content:center;color:var(--mid-grey);font-style:italic;font-size:.875rem;">
+      Google Map embed — Shop 1/82 George St, Bathurst NSW 2795
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script src="components.js"></script>
+<script>
+document.getElementById('contact-form').addEventListener('submit', function(e){
+  e.preventDefault();
+  this.style.display='none';
+  document.getElementById('contact-success').style.display='block';
+});
+</script>
+</body>
+</html>
