@@ -1,94 +1,100 @@
-/* components.js — shared nav + footer for all pages */
+/**
+ * BX Realty — site behaviour (v2, security-hardened).
+ *
+ * The nav and footer are now baked into every page at build time, so this
+ * file no longer injects HTML. It only wires behaviour, with every handler
+ * attached via addEventListener — no inline onclick, no implicit
+ * window.event — so the site runs under the strict Content-Security-Policy
+ * declared in each page's <head> (script-src 'self').
+ *
+ * Forms: GitHub Pages has no backend, so submitting composes a pre-filled
+ * email in the visitor's mail app (mailto:). This replaces the previous
+ * behaviour, which showed "Message sent!" while silently discarding the
+ * enquiry.
+ */
+(function () {
+	'use strict';
 
-const NAV = `
-<nav class="site-nav">
-  <div class="nav-inner">
-    <a href="index.html" class="nav-logo">
-      <img src="assets/images/bxrealty-logo.png" alt="BX Realty" />
-      <div class="nav-logo-wordmark"><span>BX Realty</span><span>Bathurst &amp; Region</span></div>
-    </a>
-    <ul class="nav-menu" id="navMenu">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="listings.html">Properties</a></li>
-      <li><a href="services.html">Services</a></li>
-      <li><a href="pricing.html">Pricing</a></li>
-      <li><a href="team.html">Our Team</a></li>
-      <li><a href="blog.html">News</a></li>
-      <li><a href="contact.html">Contact</a></li>
-    </ul>
-    <a href="contact.html" class="btn btn-outline nav-cta">Get in Touch</a>
-    <button class="nav-burger" id="navBurger" aria-label="Menu"><span></span><span></span><span></span></button>
-  </div>
-</nav>`;
+	function ready(fn) {
+		if (document.readyState !== 'loading') { fn(); }
+		else { document.addEventListener('DOMContentLoaded', fn); }
+	}
 
-const FOOTER = `
-<div class="cta-bar"><p>Ready to make a move? Call Ellie today — <a href="tel:0498193223">0498 193 223</a></p></div>
-<footer class="site-footer">
-  <div class="footer-grid">
-    <div class="footer-brand">
-      <div class="footer-logo"><img src="assets/images/bxrealty-logo.png" alt="BX Realty" /></div>
-      <p>A dedicated real estate agency serving Bathurst and the surrounding region. Honest, professional property services for buyers, sellers, and investors.</p>
-      <div class="social-links">
-        <a href="https://www.instagram.com/ellie_agentchapman_realtor/" class="social-link" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
-        <a href="https://www.facebook.com/profile.php?id=61573810007004" class="social-link" target="_blank" rel="noopener" aria-label="Facebook">FB</a>
-        <a href="https://www.tiktok.com/@ellie.begg.realto" class="social-link" target="_blank" rel="noopener" aria-label="TikTok">TT</a>
-      </div>
-    </div>
-    <div class="footer-col">
-      <h4>Navigate</h4>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="listings.html">Properties</a></li>
-        <li><a href="services.html">Services</a></li>
-        <li><a href="pricing.html">Pricing</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Company</h4>
-      <ul>
-        <li><a href="team.html">Our Team</a></li>
-        <li><a href="blog.html">News &amp; Insights</a></li>
-        <li><a href="appraisal.html">Get an Appraisal</a></li>
-        <li><a href="contact.html">Contact Us</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Find Us</h4>
-      <address class="footer-addr">
-        Shop 1/82 George St<br>
-        Bathurst NSW 2795<br>
-        PO Box 618, Bathurst NSW 2795<br><br>
-        <a href="tel:0498193223" style="color:var(--gold);">0498 193 223</a><br>
-        <a href="mailto:ellie@bxrealty.com.au" style="color:var(--gold);">ellie@bxrealty.com.au</a>
-      </address>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span>&copy; 2025 BX Realty Pty Ltd. All rights reserved.</span>
-    <span><a href="privacy.html">Privacy Policy &amp; Disclaimer</a> &nbsp;|&nbsp; <a href="terms.html">Terms of Use</a></span>
-  </div>
-</footer>
-<div class="licence-bar"><div class="container">Licence No. [Pending — to be supplied] &mdash; BX Realty Pty Ltd</div></div>`;
+	ready(function () {
+		/* ---------------- Mobile menu ---------------- */
+		var burger = document.getElementById('navBurger');
+		var menu   = document.getElementById('navMenu');
 
-document.addEventListener('DOMContentLoaded', function(){
-  var navT = document.getElementById('site-nav');
-  var footT = document.getElementById('site-footer');
-  if(navT) navT.innerHTML = NAV;
-  if(footT) footT.innerHTML = FOOTER;
+		if (burger && menu) {
+			burger.addEventListener('click', function () {
+				var open = menu.classList.toggle('is-open');
+				burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+			});
+		}
 
-  // Active link
-  var path = window.location.pathname.split('/').pop() || 'index.html';
-  document.querySelectorAll('.nav-menu a').forEach(function(a){
-    if(a.getAttribute('href') === path) a.classList.add('active');
-  });
+		/* ---------------- Listings tabs ---------------- */
+		var tabButtons = document.querySelectorAll('[data-bxr-tab]');
+		var tabSale    = document.getElementById('tab-sale');
+		var tabRent    = document.getElementById('tab-rent');
 
-  // Mobile menu toggle
-  var burger = document.getElementById('navBurger');
-  var menu = document.getElementById('navMenu');
-  if(burger && menu){
-    burger.addEventListener('click', function(){
-      var open = menu.style.display === 'flex';
-      menu.style.cssText = open ? '' : 'display:flex;flex-direction:column;position:absolute;top:72px;left:0;right:0;background:var(--black-mid);padding:16px 28px;gap:6px;border-bottom:1px solid rgba(225,186,98,.14);box-shadow:0 8px 32px rgba(0,0,0,.4);z-index:99;';
-    });
-  }
-});
+		if (tabButtons.length && tabSale && tabRent) {
+			tabButtons.forEach(function (btn) {
+				btn.addEventListener('click', function () {
+					var tab = btn.getAttribute('data-bxr-tab');
+
+					tabSale.style.display = (tab === 'rent') ? 'none' : 'block';
+					tabRent.style.display = (tab === 'rent') ? 'block' : 'none';
+
+					tabButtons.forEach(function (b) {
+						b.classList.remove('btn-dark');
+						b.classList.add('btn-ghost');
+						b.setAttribute('aria-pressed', 'false');
+					});
+					btn.classList.remove('btn-ghost');
+					btn.classList.add('btn-dark');
+					btn.setAttribute('aria-pressed', 'true');
+				});
+			});
+		}
+
+		/* ---------------- Mailto forms (contact + appraisal) ---------------- */
+		document.querySelectorAll('form[data-bxr-mailto]').forEach(function (form) {
+			form.addEventListener('submit', function (e) {
+				e.preventDefault();
+
+				if (!form.reportValidity()) { return; }
+
+				var to      = form.getAttribute('data-bxr-mailto');
+				var subject = form.getAttribute('data-bxr-subject') || 'Website enquiry';
+				var lines   = [];
+
+				form.querySelectorAll('input[name], select[name], textarea[name]').forEach(function (field) {
+					var label = form.querySelector('label[for="' + field.id + '"]');
+					var name  = label ? label.textContent.replace(/\s*\*\s*$/, '') : field.name;
+					var value = field.value.trim();
+
+					if (field.name === 'subject' && value) { subject = value + ' — website enquiry'; return; }
+					if (field.name === 'message') { return; } // appended last
+					if (value) { lines.push(name + ': ' + value); }
+				});
+
+				var msg = form.querySelector('[name="message"]');
+				if (msg && msg.value.trim()) {
+					lines.push('', msg.value.trim());
+				}
+
+				var href = 'mailto:' + encodeURIComponent(to) +
+					'?subject=' + encodeURIComponent(subject) +
+					'&body=' + encodeURIComponent(lines.join('\n'));
+
+				window.location.href = href;
+
+				var success = document.getElementById(form.id.replace('-form', '-success'));
+				if (success) {
+					form.style.display = 'none';
+					success.style.display = 'block';
+				}
+			});
+		});
+	});
+}());

@@ -297,3 +297,9 @@ select.fc{cursor:pointer;}
   .form-row{grid-template-columns:1fr;}
   .footer-bottom{flex-direction:column;text-align:center;}
 }
+
+/* =========================================================================
+   Security-fix additions (v2) — mobile menu open state moved out of JS
+   cssText injection so it works under the strict CSP.
+   ========================================================================= */
+.nav-menu.is-open{display:flex;flex-direction:column;position:absolute;top:72px;left:0;right:0;background:var(--black-mid);padding:16px 28px;gap:6px;border-bottom:1px solid rgba(225,186,98,.14);box-shadow:0 8px 32px rgba(0,0,0,.4);z-index:99;}
